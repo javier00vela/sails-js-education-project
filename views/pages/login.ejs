@@ -1,0 +1,41 @@
+<html>
+ <title>MetaPlan APP</title>
+  <head>
+    <link rel="stylesheet" href="styles/main-theme.css">
+     <link rel="stylesheet" href="styles/bootstrap.min.css">
+      <link rel="stylesheet" href="styles/w3schools.css">
+        <link rel="stylesheet" href="/styles/sweetalert2.min.css">
+        <script src="/js/dependencies/jqueryUtils.js"></script>
+        
+  <script src="/js/dependencies/sweetalert2.min.js"></script>
+  </head>
+<body>
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+   <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+  <% } %>
+    <div class="row">
+            <div class="col-sm-4 col-sm-offset-4 form-box">
+                  <div class="form-top">
+                            <div align="center" class="form-top-center">
+                                  <img src="/images/LogoMetaPlan.svg" alt="logoMainContainer" class="img-login" width="270">
+                            </div> 
+                  </div>
+                  <div class="form-bottom">
+                           <form class="login-form" action="/login" method="post">
+                              <div class="form-group">
+                                    <label for="form-username">Correo</label>
+                                    <input type="text" name="correo" name="form-username" placeholder="ingresa tu correo" class="form-username form-control" id="form-username">
+                              </div>
+                              <div class="form-group">
+                                    <label for="form-password">Nit</label>
+                                    <input type="password"  name="password" placeholder="ingresa tu nit" class="form-password form-control" id="form-password">
+                              </div>
+                              <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                          </form>
+                  </div>
+            </div>
+    </div>
+</body>
+</html>

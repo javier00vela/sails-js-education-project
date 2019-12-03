@@ -1,0 +1,92 @@
+<html>
+<head>
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+</head>
+
+ <section class="content-header">
+      <h1>
+        Administrador Usuarios
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Agregar Usuario </a></li>
+      </ol>
+    </section>
+
+<div class="container" style="margin-top: 70px;" ng-app="AdministradorAPP">
+
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+
+
+
+ <div class="w3-card-4" style="width:100%;">
+      <header class="w3-container w3-brown w3-center">
+        <h1>Nuevo Usuario</h1>
+      </header>
+  <!-- Form to create a new user. Access the created roles to assign them to the new user -->
+ <div class="w3-container">
+      <!-- Form to create a new user. Access the created roles to assign them to the new user -->
+          <form id="guardar" id="guardar" action="/createUsuario" method="post" style="padding: 10px;">
+             Nombre :
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-address-card"></i></span>
+                                    <input type="text" placeholder="Escribe tu Nombre" name="nombre"  class="form-control"/>
+                                </div>
+                                 Apellido:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-address-card"></i></span>
+                                    <input type="text"  name="apellido" class="form-control" placeholder="Escribe tu apellido" />
+                                </div>
+                                 Nit:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class=" fa fa-globe"></i></span>
+                                    <input type="text"  name="nit"  placeholder="Escribe la contraseña" class="form-control"/>
+                                </div>
+                                 Correo:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-at"></i></span>
+                                    <input type="email"  name="correo"  placeholder="Example00@gmail.com" class="form-control"/>
+                                </div>
+  
+            <label>rol</label>
+            <div class="roles" ng-controller="showRolesCtrl">
+              <div ng-repeat="rol in roles">
+                <label><input type="radio" name="tipo" value="{{rol.id}}">{{rol.nombre}}</label>
+              </div>
+            </div>
+            <div id="alert"></div>
+            </form>
+            <div class="container text-center">
+            <button type="submit" class="btn btn-lg btn-success" id="answer" name="submitButton">Agregar Usuario</button>
+            </div>
+            
+            
+        </div>
+  </div>
+</div>
+</html>
+<script>
+  $("#answer").click(function(e){
+if($("input[name=tipo]:checked").val()){
+  $("#answer").attr("form","guardar");
+}
+
+  if(!$("input[name=tipo]:checked").val()){
+      e.preventDefault();
+$("#alert").html("<li style='color:red'> por favor seleccione una opción  </li>");
+}
+});
+</script>

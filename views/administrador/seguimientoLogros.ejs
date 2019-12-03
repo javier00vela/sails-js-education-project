@@ -1,0 +1,77 @@
+<section class="content-header">  
+  <h1>
+        Seguimiento de docentes
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de docentes</a></li>
+    </ol>
+</section>
+<style>
+  th{
+    text-align: center;
+    background: #483212;
+    color: white;
+  }
+  td{
+    text-align: center;
+  }
+</style>
+<div class=" box container " >
+  <h2 class="text-center">Control historico de modificaciones por logro (Observación General)</h2>
+  <hr>
+  <div class="mostrar_docentes" style="border-radius: 5px;" >
+    <table class="table table-condensed" >
+      <thead class="thead-inverse" >
+        <tr style="border-radius: 5px;">
+
+<div class=" box container">
+  
+  <div class="mostrar_docentes">
+
+    <table class="table table-condensed">
+      <thead class="thead-inverse">
+        <tr>
+
+          
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Asignatura</th>
+          <th>Logro</th>
+          <th>Modificicaciones</th>
+          <th>Motivo</th>
+
+   
+          
+        </tr>
+      </thead>
+      
+      <tbody>
+       
+ <% _.each(logros, function(lo){ %>  
+	
+            <% for(var i =0; i<lo.logros.length; i++){%>
+              <tr>
+              	<td><%= lo.docente.nombre %></td>
+              	<td><%= lo.docente.apellido %></td>
+				<td><%= lo.asignatura %></td>
+                <td><%= lo.logros[i].objetivo_general %></td>
+                <td><%= lo.logros[i].contador %> veces</td>
+                <td><a href="vermotivosLogro?id=<%= lo.logros[i].id %>" class="btn btn-primary "> <i style="margin-right: 8px;" class=" fa fa-commenting"></i>ver Motivos </a></td>    
+             </tr>
+            
+             <%}%>
+    <% }) %>
+  
+              
+      </tbody>
+    </table>
+
+</div>
+</div>
+
+
+
+    <table>
+        
+    </table>

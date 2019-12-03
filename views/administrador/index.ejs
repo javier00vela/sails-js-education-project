@@ -1,0 +1,83 @@
+ <section class="content-header">
+      <h1>
+        Administrador Usuarios
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+      </ol>
+    </section>
+
+<div class=" box container">
+  <h2>Docentes</h2>
+  <div class="mostrar_docentes">
+    <table class="table table-condensed">
+      <thead class="thead-inverse">
+        <tr>
+          <th>id</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Email</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(docentes, function (docente) { %>
+        <tr>
+            <td> <%= docente.id %> </td>
+            <td> <%= docente.nombre %> </td>
+            <td> <%= docente.apellido%> </td>
+            <td>  <%= docente.correo%> </td>
+            <td>
+              <a href="/docente/edit/<%= docente.id %>" class="btn btn-primary">Editar</a>
+            </td>
+            <td>
+              <a href="/usuario/destroy/<%= docente.id %>" class="btn btn-danger">Eliminar</a>
+            </td>
+            <td>
+              <a href="/malla/new/<%= docente.id %>" class="btn btn-warning">Nueva Malla</a>
+            </td>
+
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <h2>Coordinadores</h2>
+  <div class="mostrar_coordinadores">
+    <table class="table table-condensed">
+      <thead class="thead-inverse">
+        <tr>
+          <th>id</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Email</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(coordinadores, function (coordinador) { %>
+        <tr>
+            <td> <%= coordinador.id %> </td>
+            <td> <%= coordinador.nombre %> </td>
+            <td> <%= coordinador.apellido%> </td>
+            <td>  <%= coordinador.correo%> </td>
+            <td>
+              <a href="/coordinador/edit/<%= coordinador.id %>" class="btn btn-primary">Editar</a>
+            </td>
+            <td>
+              <a href="/usuario/destroy/<%= coordinador.id %>" class="btn btn-danger">Eliminar</a>
+            </td>
+            <td>
+              <a href="/administrador/vincular/<%= coordinador.id %>" class="btn btn-warning">Agregar Docente</a>
+            </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

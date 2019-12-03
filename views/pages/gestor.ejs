@@ -1,0 +1,228 @@
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<html>
+	<head>
+		
+	</head>
+<body>
+ <section class="content-header">
+      <h1>
+        Gestores
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+         <li><a href="#"><i class="fa fa-dashboard"></i> Gestor</a><li>
+      </ol>
+    </section>	
+
+
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+
+
+<div class="container">
+  <div class="fluid-container">
+    
+<section class="content">
+      <div class="row">
+        <div class="col-lg-6 col-xs-12">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>ROL</h3>
+
+              <p> Agregar Nuevo Rol </p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <a href="#" data-toggle="modal" data-target="#rol" class="small-box-footer">Ver Mas <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      <div class="col-lg-6 col-xs-12">
+       
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>CURSO</h3>
+
+              <p>Agregar Nuevos Cursos</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-book"></i>
+            </div>
+            <a href="#" data-toggle="modal" data-target="#curso" class="small-box-footer">Ver Mas <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-xs-12">
+          
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>NIVEL</h3>
+
+              <p>Agregar Nuevos Niveles</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-arrow-up"></i>
+            </div>
+            <a href="#" data-toggle="modal" data-target="#nivel" class="small-box-footer">Ver Mas <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+          <div class="col-lg-6 col-xs-12">
+          
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>Preguntas</h3>
+
+              <p>Agregar Nuevas Preguntas</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-list" style="color: white"></i>
+            </div>
+            <a href="#" data-toggle="modal" data-target="#preguntas" class="small-box-footer">Ver Mas <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+  </div>
+</section>
+  </div>
+</div>
+</body>
+
+<!-- modal rol -->
+<div class="modal fade" id="rol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Agregar Nuevo Rol</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+      <div class="modal-body">
+		<div class="container" ng-app="AdministradorAPP">
+		  <form action="/createRol" id="newRol" method="post">
+		  	<div class="container">
+		  		<div class="row">
+		  			<label>Nombre:</label>
+					    <input class="form-control" type="text" required name="nombre" style="width: 48%">
+					    
+            </form>
+		  			</div>
+		  		</div>
+		   </div>
+      </div>
+      <div class="modal-footer">
+      	<button form="newRol" class="btn btn-primary" type="submit" name="submitButton" >Crear</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--    								-->
+
+
+<!-- modal Curso -->
+<div class="modal fade" id="curso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Agregar Nuevo Curso</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+      <div class="modal-body">
+		<div class="container">
+		  <form action="/createCurso" method="post">
+		    <label>Numero de Curso:</label>
+		    <input class="form-control" type="text" required style="width: 48%" name="num_curso">
+		 </div>
+      </div>
+      <div class="modal-footer">
+      	<button class="btn btn-primary" type="submit" name="button">Crear</button>
+		  </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--    								-->
+
+<!-- modal Nivel -->
+<div class="modal fade" id="nivel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Agregar Nuevo Nivel</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+      <div class="modal-body">
+		<div class="container">
+  			<form action="/createNivel" method="post">
+    			<label>Nombre de Nivel:</label>
+					<input class="form-control" type="text" required style="width: 48%" name="nombre">
+				</div>
+    	  </div>
+      <div class="modal-footer">  	
+    <button class="btn btn-primary" type="submit" name="button">Crear</button>
+  </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal preguntas -->
+<div class="modal fade" id="preguntas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Agregar Nuevas Preguntas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+      <div class="modal-body">
+    <div class="container">
+        <form id="guardar" action="/createPregunta" method="post">
+          <label>pregunta:</label>
+          <input class="form-control" type="text" required style="width: 48%" name="pregunta">
+          Monitoreo
+          <input type="radio" name="tipo" value="monitoreo">
+          Evaluación
+          <input type="radio" name="tipo" value="evaluacion">
+        </div>
+        </div>
+        <div id="alert"></div>
+      <div class="modal-footer">    
+   
+  </form>
+   <button class="btn btn-primary" id="answer"  name="button">Crear</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--                    -->
+</html>
+<script>
+  $("#answer").click(function(e){
+if($("input[name=tipo]:checked").val()){
+  $("#answer").attr("form","guardar");
+}
+
+  if(!$("input[name=tipo]:checked").val()){
+      e.preventDefault();
+$("#alert").html("<li style='color:red'> por favor seleccione una opción  </li>");
+}
+});
+</script>

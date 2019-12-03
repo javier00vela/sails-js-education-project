@@ -1,0 +1,199 @@
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+  
+$(function(){
+modificar("algo");
+});
+
+function modificar(id){
+  $("#"+id).html("<form action='#'><p>motivo para editar :<div class='row'></p><div class='col-md-12'><input class='form-control' name='editado' ></div></div></form>");
+  $("."+id).html("guardar");
+  $("."+id).attr("class","btn btn-success");
+
+}
+
+
+
+
+</script>
+
+<% if(req.session.user.rol.nombre == "Docente Experimental"){ %>
+<script type="text/javascript">
+$(function(){
+  var checker = [];
+  
+      $("#check1").click(function(){
+            checker  = $("#check1")[0].checked;
+            checker2  = $("#check2")[0].checked;
+             checker3  = $("#check3")[0].checked;
+            if(checker && checker2 && checker3 ){
+                $("#preguntasModal").modal('show'); 
+            }
+            
+    });  
+});
+</script>
+<% } %>
+ <section class="content-header">
+      <h1>
+        ver sesiones
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Consultar Planeacion</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> ver sesiones</a></li>
+      </ol>
+    </section>
+
+  <div class="box">
+  	<div class="box-header text-center">
+		<h3>Sesiones</h3>
+  		<hr>
+  	</div>
+  	<div class="box-body">
+		<button class="btn btn-primary" data-toggle="modal" data-target="#createSesion"  >Agregar Nueva Sesión</button>
+		<hr>
+	<% var control %>
+
+		<% _.each(sessiones ,  function(sesion){%>
+     <%  console.log('==============')%>
+      
+  
+		<%  if(sesion.num_sesion != control ){  %>
+  		<div class="container">
+  			<div class="row">
+  				<div class="col-md-10">
+  					<div class="panel ">
+  						<div class="row ">
+  						
+  						<div class="col-md-4">numero session <input class="form-control" type="text" value="<%= sesion.num_sesion %>" > </div>
+  						<div class="col-md-4">tema <input class="form-control" type="text" value="<%= sesion.tema %>"  ></div>
+  						<div class="col-md-4">etapa de modelo <input class="form-control" type="text" value="<%= sesion.etapa_del_modelo %>"  ></div>
+  						<div class="col-md-4">enseñanza <input class="form-control" type="text" value="<%= sesion.tecnica_de_ensenanza %>" ></div>
+  						<div class="col-md-4">recursos <input class="form-control" type="text" value="<%= sesion.recursos %>" ></div>
+  						<div class="col-md-12">descripcion <input class="form-control" type="text" value="<%= sesion.descripcion_de_la_actividad %>" ></div>
+  						<div class="col-md-12" id="<%= sesion.id%>">	</div>
+              <div class="col-md-1"><input type="checkbox" id="check1"></div>
+              <div class="col-md-3">10-C<input type="text" value="09/05/18"></div>
+                   <div class="col-md-1"><input type="checkbox" id="check2"></div>
+              <div class="col-md-3">10-D<input type="text" value="10/05/18"></div>
+                   <div class="col-md-1"><input type="checkbox" id="check3"></div>
+              <div class="col-md-3">10-E<input type="text" value="14/05/18"></div>
+  						
+  						</div>
+  					</div>
+  				</div>
+  				<div class="col-md-2" >
+  					<div class="container" style="line-height: 200px">
+  					<button class="<%= sesion.id%> btn btn-primary" onclick="modificar('<%= sesion.id%>')">editar</button>
+  					<a href="/deleteSesion?id=<%= sesion.id%>"><button class="btn btn-danger">eliminar</button></a>
+  					</div>
+  				</div>
+  			</div>
+  			<hr>
+  		</div>
+  		<% control = sesion.num_sesion  %>
+  		<% }  %>
+  		<% }) %>
+  	</div>
+  </div>
+
+<div class="modal fade" id="createSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">crear sesión</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel ">
+  						<div class="row ">
+                <form method="get" action="#">
+
+  						<div class="col-md-4">tema <input class="form-control" type="text"   ></div>
+  						<div class="col-md-4">
+                etapa de modelo 
+                <select class="form-control" name="etapa_del_modelo" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Activación de conocimientos previos">Activación de conocimientos previos</option>
+              <option value="Acceso a la informacion">Acceso a la informacion</option>
+              <option value="Conceptualización">Conceptualización</option>
+              <option value="Comprensión">Comprensión</option>
+              <option value="Transferencia">Transferencia</option>
+            </select></div>
+  						<div class="col-md-4"> 
+                Tecnica de Enseñanza
+            <select class="form-control" name="tecnica_de_ensenanza" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Trabajo individual">Trabajo individual</option>
+              <option value="Trabajo en binas">Trabajo en binas</option>
+              <option value="Trabajo en pequeño grupo">Trabajo en pequeño grupo</option>
+              <option value="Trabajo en gran grupo">Trabajo en gran grupo</option>
+            </select>
+          </div>
+  						<div class="col-md-4">
+                recursos    
+                <select class="form-control" name="recursos" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Ninguno">Ninguno</option>
+              <option value="Archivo">Archivo</option>
+              <option value="Video">Video</option>
+              <option value="Ebook">Ebook</option>
+              <option value="Video">Video</option>
+              <option value="Presentación Multimedia">Presentación multimedia</option>
+              <option value="Actividad Multimedia">Actividad Multimedia</option>
+              <option value="Galeria">Galeria</option>
+              <option value="Aplicaciones">Aplicaciones</option>
+            </select></div>
+  						<div class="col-md-12">descripcion <input class="form-control" type="text" ></div>
+  						<div class="col-md-12">	</div>
+  							
+  						</div>
+  					</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary" >Guardar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <strong><div class="modal fade" id="preguntasModal" data-keyboard="false" data-backdrop="static"></strong>
+                 <div class="modal-dialog">
+                   <div class="modal-content">
+                     <div class="modal-header">
+                       <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                       <h4 class="modal-title">Sesión Finalizada !</h4>
+                     </div>
+                     <div class="modal-body">
+                      <form id="guardar" action="/savePregunta" method="post">
+                      <% var cont=1  %>
+                         <% _.each(preguntas ,  function(pregunta){%>
+                        <% if(cont < 4){%>
+                        <%= cont %>)<%= pregunta.pregunta %><br>
+                        <input type="hidden" name="pregunta<%= cont %>" value="<%=  pregunta.id  %>">
+                        1 <input type="radio" name="<%= cont %>" value="1">
+                        2 <input type="radio" name="<%= cont%>" value="2">
+                        3 <input type="radio" name="<%= cont %>" value="3">
+                        4 <input type="radio" name="<%= cont %>" value="4">
+                        5 <input type="radio" name="<%= cont %>" value="5">
+                        <br>
+                        <% cont++ %>
+                        <hr>  
+                        <% } %>
+                         <%   }) %>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                       <button form="guardar" type="submit" class="btn btn-primary"> Enviar</button>
+                       
+                     </div>
+                   </div><!-- /.modal-content -->
+                 </div><!-- /.modal-dialog -->
+               </div><!-- /.modal -->
+

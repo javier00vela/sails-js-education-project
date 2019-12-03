@@ -1,0 +1,42 @@
+ <section class="content-header">
+      <h1>
+        Ver Docentes
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Coordinador</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Ver docentes</a></li>
+      </ol>
+ </section>
+
+ <div class="box">
+ 	<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-xs-4 bg-primary text-center">
+			<p>Nombre Docente</p>
+		</div>
+		<div class="col-md-8 col-xs-8 bg-primary text-center">
+			<p>Opciones</p>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<% var cont = 0 %>
+		<% for (var i = 0; i < docent.length; i++) {  %> 
+
+		<div class="col-md-4 col-xs-4 text-center">
+			<p><%= docent[i].nombre %></p>
+		</div>
+
+			<div class="col-md-8 col-xs-8  text-center">
+				<button class="btn btn-danger" onclick="alertConfirm(' ¿deseas eliminar este docente? ¡ esto puede borrar los comentarios de esta docente! ' , '/docentesCoordinadorEliminar?id=<%= docent[cont].id_profesor %>')"><i class="fa fa-times">Eliminar</i></button>
+			</div>
+	<% cont++ %>
+		<%	} %> 
+	</div>
+
+
+ </div>
+</div>

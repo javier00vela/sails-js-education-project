@@ -1,1 +1,3 @@
-sails-js-education-project
+# MetaPlan
+
+a [Sails](http://sailsjs.org) application

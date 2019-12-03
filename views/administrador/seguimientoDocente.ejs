@@ -1,0 +1,58 @@
+<section class="content-header">  
+  <h1>
+        Seguimiento de docentes
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de docentes</a></li>
+    </ol>
+</section>
+<style>
+  th{
+    text-align: center;
+    background: #483212;
+    color: white;
+  }
+  td{
+    text-align: center;
+  }
+</style>
+
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+
+<div class=" box container " >
+  <h2 class="text-center">Control historico de modificaciones de docentes</h2>
+  <hr>
+  <div class="mostrar_docentes" style="border-radius: 5px;" >
+    <table class="table table-condensed" >
+      <thead class="thead-inverse" >
+        <tr style="border-radius: 5px;">
+          
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>rol</th>
+          <th>fecha creación</th>
+          <th>opción</th>
+        </tr>
+      </thead>
+      
+    <tbody>
+      <% if(user){ %>
+        <% _.each(user, function(docente){ %>
+        <% if(docente.nombre == "Docente Experimental" || docente.nombre == "Docente"  ){ %>
+        <% for (var i = 0; i < docente.usuarios.length; i++) { %>       
+          <tr>
+        <td><%=docente.usuarios[i].nombre %></td>
+        <td><%=docente.usuarios[i].apellido %></td>
+        <td><%=docente.nombre %></td>
+        <td><%=docente.usuarios[i].createdAt %></td>
+        <td><a href="/verModificacionesDocente?id=<%= docente.usuarios[i].id %>"><button class="btn btn-success"><i class="fa fa-edit"></i>Abrir Modificaciones</button></a></td>
+        <tr>
+           <% } %>
+          <% } %>
+        <%  }) %>
+        <% } %>
+      </tbody>
+    </table>
+</div>
+</div>

@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="/styles/w3schools.css">
+<section class="content-header">
+      <h1>
+        Menu Inicio
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+      </ol>
+    </section>
+
+<div class="box">
+	<div class="box-header with-border">
+		<div class="title">
+			<h4 class="text-center">Bienvenido sr/a <% if(req.session.user.rol.nombre != "Docente Experimental"){ %><%= req.session.user.rol.nombre %><%}else{%>Docente <% }%>/a </h4>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="row">
+    <div class="col-md-5">
+      <img src="/images/LogoMetaPlan.svg" alt="logoMainContainer" align="center" class="img-responsive " width="400" style="margin-left: 100px;">
+    </div>
+    <div class="col-sm-6 w3-display-container" style="height:300px;">
+      <div class="w3-display-right w3-Dark_Gray w3-padding-large w3-animate-top text-justify">
+          <p>MetaPlan es un proyecto desarrollado por docentes para docentes, cuyo objetivo fundamental
+          es apoyar la practica, óptimizar la planeación, brindar herramientas y estrategias pedagógicas
+          que permitan la construcción y reconstrucción del quehacer docente</p>
+      </div>
+    </div>
+  </div>
+	</div>
+	<div class="box-footer with-border">
+		<p class="text-center "> MetaPlan APP  </p>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+

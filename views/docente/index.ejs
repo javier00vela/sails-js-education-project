@@ -1,0 +1,382 @@
+  <!-- Aqui Script para Estadistica -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"> 
+</script>
+
+    <% _.each(mallas, function (malla) { %>
+  <%  for (var i = 0; i < estrategiasConteo.length; i++) { %> 
+  <% console.log(estrategiasConteo[i].malla) %>
+   <%  if (estrategiasConteo[i]) { %> 
+    <script type="text/javascript"> 
+      google.charts.load('current', {'packages':['corechart']}); 
+      google.charts.setOnLoadCallback(drawChart); 
+      <%  if (estrategiasConteo[i][0]) { %> 
+ 
+      function drawChart() { 
+
+        var data = google.visualization.arrayToDataTable([ 
+          ['Task', 'Estrategias de Enseñanza Seleccionadas', 
+        <% for(var e = 0 ; e < estrategiasConteo[i].estrategias.length ; e++ ){ %>
+          <% console.log(estrategiasConteo[i][e])%>
+        <% if( estrategiasConteo[i][e]){  for (var j = 0; j < estrategiasConteo[i][e].length; j++) { %> 
+ 
+         ["<%=estrategiasConteo[i].estrategias[e].nombre%>", <%=estrategiasConteo[i].estrategias[e].promedio%>],
+ 
+        <%   } } %> 
+ 
+        ]]); 
+ 
+        var options = { 
+          title: 'Estrategias de Enseñanza', 
+          sliceVisibilityThreshold: 0, 
+          height: 500, 
+          width: 870, 
+          pieSliceText: 'none', 
+ 
+        }; 
+ 
+        var chart = new google.visualization.PieChart(document.getElementById('piechart<%=estrategiasConteo[i].malla%>')); 
+ 
+        chart.draw(data, options); 
+        <% } %>
+        }
+      <% } %>
+    </script> 
+ 
+
+
+ <!-- Aqui Fin Script para Estadistica -->
+
+ <!-- Aqui Cuadro promedio -->
+
+
+
+ <!-- Fin Cuadro promedio -->
+    <script type="text/javascript"> 
+      google.charts.load('current', {'packages':['corechart']}); 
+      google.charts.setOnLoadCallback(drawChart); 
+ 
+  <%  if (estrategiasConteo[i]) { %> 
+      function drawChart() { 
+     
+        var data = google.visualization.arrayToDataTable([ 
+          ['Task', 'Estrategias de Enseñanza Seleccionadas %>'], 
+ 
+           <% for(var e = 0 ; e < estrategiasConteo[i].estrategias.length ; e++ ){ %>
+ 
+         ["<%=estrategiasConteo[i].estrategias[e].nombre%>", <%=estrategiasConteo[i].estrategias[e].promedio%>],
+ 
+          <% } %>
+ 
+        ]); 
+ 
+        var options = { 
+          title: 'Estrategias de Enseñanza <%= estrategiasConteo[i].malla %>', 
+          sliceVisibilityThreshold: 0, 
+           height: 500, 
+          width: 870, 
+          pieSliceText: 'none', 
+ 
+        }; 
+ 
+        var chart = new google.visualization.PieChart(document.getElementById('piechart<%= estrategiasConteo[i].malla %>')); 
+ 
+        chart.draw(data, options); 
+    
+      } 
+    <% } %>
+    </script> 
+    <%   } %> 
+<%   } %> 
+<% })%>
+
+
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+ <script>  
+   function visible(valor){
+    if($("."+valor+"1").on("click")){
+    if(!$("#"+valor+"1").hasClass("visible")){
+    $("#"+valor+"1").attr('class',"visible");
+    $("."+valor).attr('class',valor+' btn btn-danger');
+    $("."+valor).html('ocultar');
+    }else{
+       $("#"+valor+"1").attr('class',"hidden");
+    $("."+valor).attr('class',valor+' btn btn-primary');
+    $("."+valor).html('Detalles');
+    }
+  }
+}
+
+$(function(){
+    visible('id');
+    $(".user-menu").click(function(){
+        $(".user-menu").attr('class','dropdown user user-menu open');
+    });
+});
+
+var modal = false;
+  <% var nombreFechas = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dic'] %> 
+var fechaActual = [];
+  var date = new Date(); 
+         <% for(var i = 0; i < logros.length ;  i++){ %>
+            
+            <%if(logros[i].malla){ %>
+            <% var docente = logros[i].malla.docente %>
+              
+              <% if( docente == req.session.user.id ){ %>
+              <% var fechaActual = String(logros[i].fecha_final).split(' ') %>
+              
+              <%  var date = new Date(); %>
+              <%  actual = fechaActual[3]+"-"+fechaActual[1]+"-"+fechaActual[2]  %>
+              <% var fecha =  date.getFullYear()+"-"+nombreFechas[date.getMonth()]+"-"+date.getDate(); %>
+                <% if(new Date(fecha) > new Date(actual) ){ %>
+                  <% if(!logros[i].check){ %>
+                  var modal = true  ;
+                  <% var nombreLogro = logros[i].objetivo_general %>
+                  <% var idLogro = logros[i].id %>
+                  <% } %>
+                  <% }else{ %>
+                  <% console.log(new Date(actual)) %>
+                  <% console.log("=================") %>
+                  <% } %>
+                <% } %>
+            <% } %>
+        <% } %>
+<%console.log(docente)%>
+
+<% if(!req.param('pregunta')){ %>
+  <% if(req.session.user.rol.nombre == "Docente Experimental"){ %>
+if (modal) {
+   $(".content-wrapper").html("<button  class='invisible' id='preguntar' data-toggle='modal' data-target='#preguntas'>load Content</button>"+'<div class="modal fade" id="preguntas" data-keyboard="false" data-backdrop="static"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"> <h4 class="modal-title">Evaluacion del logro "<%= nombreLogro %>" !</h4></div><div class="modal-body"> <form  action="/saveEvaluacion" method="post"> <% var cont=0  %> <% _.each(preguntas ,  function(pregunta){ %><% if(cont < preguntas.length){ %><input type="hidden" name="logroId<%=cont%>" value="<%=  idLogro  %>"><%= cont+1 %>)<%= pregunta.pregunta %><br><input type="hidden" name="pregunta<%= cont %>" value="<%=  pregunta.id  %>">1 <input type="radio"  id="<%= cont %>"  name="<%= cont %>" value="1">2 <input type="radio" id="<%= cont %>" name="<%= cont%>" value="2">3 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="3">4 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="4">5 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="5"><div id="check-answers-<%=cont %>" >  </div><br><% cont++ %><hr>  <% } %><%   }) %> <div id="check-answers-3" > <div class="modal-footer">   <button  id="control-answers" type="submit" class="btn btn-primary"> Enviar</button></div></form></div></div></div></div></div>');
+   $("#preguntar").trigger("click");
+}
+<% } %>
+<% } %>
+
+ 
+</script>
+
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+
+
+ <section class="content-header">
+      <h1>
+        Consultar Planeación
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Consultar Planeación</a></li>
+        
+      </ol>
+    </section>
+
+<div class="box">
+
+  <div class="box-header">
+      <h1 class="text-center">Consultar Planeación</h1>
+      <hr>
+  </div>
+<div class="container text-center">
+  
+  <!-- View showed when a Docente Control logs in. -->
+  <% if(req.session.user.rol.nombre == 'Docente Experimental'){ %>
+  <div class="row bg-primary w3-brown" style="border-radius: 5px;">
+    <div class="col-md-3  col-xs-3">Asignatura</div>
+    <div class="col-md-2  col-xs-2">Nivel</div>
+    <div class="col-md-2  col-xs-2">Curso</div>
+    <div class="col-md-2  col-xs-2"> Detalles</div>
+    <div class="col-md-2  col-xs-2"> Estadisticas</div>
+  </div>
+  <% }else{ %>
+      <div class="col-md-3  col-xs-3">Asignatura</div>
+    <div class="col-md-2  col-xs-2">Nivel</div>
+    <div class="col-md-3  col-xs-2">Curso</div>
+    <div class="col-md-3  col-xs-2"> Detalles</div>
+  <% } %>
+<hr>
+  <div class="Asignaturas">
+
+      <% _.each(mallas, function (malla) { %>
+       <div class="row">
+       <% if(req.session.user.rol.nombre == 'Docente Experimental'){ %>
+    <div class="col-md-3  col-xs-3"> <%= malla.asignatura %></div>
+    <div class="col-md-2   col-xs-2"><%= malla.nivel.nombre %></div>
+    <div class="col-md-2  col-xs-2"><button class="btn btn-warning " data-toggle="modal" data-target="#<%= malla.id %>"> Cursos </button></div>
+    <div class="col-md-2  col-xs-2"><button class=" <%= malla.id %> btn btn-primary"  onclick="return visible('<%= malla.id %>');"> Detalles </button></div>
+    <% }else{ %>
+    <div class="col-md-3  col-xs-3"> <%= malla.asignatura %></div>
+    <div class="col-md-2   col-xs-2"><%= malla.nivel.nombre %></div>
+    <div class="col-md-3  col-xs-2"><button class="btn btn-warning " data-toggle="modal" data-target="#<%= malla.id %>"> Cursos </button></div>
+    <div class="col-md-3  col-xs-2"><button class=" <%= malla.id %> btn btn-primary"  onclick="return visible('<%= malla.id %>');"> Detalles </button></div>
+    <% } %>
+     <% if(req.session.user.rol.nombre == 'Docente Experimental'){ %><div class="col-md-2  col-xs-2"><button class="btn btn-success" data-toggle="modal" data-target="#estadisticaTorta<%= malla.id %>"> Estrategias </button></div><% } %>
+  </div>
+   
+  <div class="modal fade" id="<%= malla.id %>" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Cursos</h4>
+      </div>
+      <div class="modal-body">
+        <ul class="cursos">
+          <% for(var i=0; i<malla.cursos.length; i++) {%>
+            <li><%= malla.cursos[i].num_curso %></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal fade" id="estadisticaTorta<%= malla.id %>" tabindex="-1"  aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 900px;">
+    <div class="modal-content" style="width: 900px;">
+      <div class="modal-header">
+        <h4>Estadisticas <%= malla.asignatura %></h4>
+      </div>
+      <div class="modal-body">
+            <!-- La torta -->
+
+            <div id="piechart<%= malla.asignatura %>"></div>
+            <div id="table_div"></div>
+
+
+            <!-- Hasta aqui va la torta -->
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="<%= malla.id %>1" class=" hidden">
+    <div class="jumbotron">
+        <!-- It is organized in quarters -->
+        <div class="container"> 
+                  <div class="row bg-primary text-center"> 
+                        <div class="col-md-3 col-xs-3"> Primer Periodo </div>
+                        <div class="col-md-3 col-xs-3"> Segundo Periodo </div>
+                        <div class="col-md-3 col-xs-3"> Tercer Periodo </div>
+                        <div class="col-md-3 col-xs-3"> Cuarto Periodo </div>
+                  </div>
+              <!-- show all the Logros created and allow to create more -->
+
+              <div class="row text-left"> 
+
+                <!-- Para contar los logros -->
+                <%
+
+                var contp1 = 1;
+                var contp2 = 1;
+                var contp3 = 1;
+                var contp4 = 1;
+
+                %> 
+
+
+                  <div class="col-md-3 col-xs-3">
+                    <% for(var i=0; i<malla.logros.length; i++) {%>      
+                        <% if(malla.logros[i].periodo == "01"){  %>
+                        <% contp1++; %>
+                        <hr style="margin: 5px 0; border-style: double; border-color: gray;"> 
+                        <div class="container"> 
+                          <div class="col-md-7 col-xs-7">
+                            <li><a href="/logro/ver?id=<%=malla.logros[i].id%>"><%= malla.logros[i].objetivo_general %></a> </li>
+                          </div>  
+                          <div class="col-md-5 col-xs-5">
+                             <a href="/editar?id=<%= malla.logros[i].id%>"> <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button></a>
+                           <button class="btn btn-danger btn-xs" onclick="alertConfirm(' ¿deseas eliminar este logro?  ' , '/logro/delete/<%= malla.logros[i].id%>')"><i  class="fa fa-close"></i></button>
+                          </div>
+                        </div>
+                        <% } %>    
+                   <% } %>
+                  </div>
+
+                  <div class="col-md-3 col-xs-3">
+                    <% for(var i=0; i<malla.logros.length; i++) {%>                     
+                        <% if(malla.logros[i].periodo == "02"){  %>
+                        <% contp2++; %>
+                        <hr style="margin: 5px 0; border-style: double; border-color: gray;">  
+                        <div class="container">
+                          <div class="col-md-7 col-xs-7">
+                            <li><a href="/logro/ver?id=<%=malla.logros[i].id%>"><%= malla.logros[i].objetivo_general %></a> </li>
+                          </div>  
+                          <div class="col-md-5 col-xs-5">
+                             <a href="/editar?id=<%= malla.logros[i].id%>"> <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button></a>
+                           <button class="btn btn-danger btn-xs" onclick="alertConfirm(' ¿deseas eliminar este logro?  ' , '/logro/delete/<%= malla.logros[i].id%>')"><i  class="fa fa-close"></i></button>
+
+
+                          </div>  
+                        </div>
+                                           
+                        <% } %>                     
+                    <% } %>
+                  </div>
+              
+                  <div class="col-md-3 col-xs-3">
+                    <% for(var i=0; i<malla.logros.length; i++) {%>
+                        <% if(malla.logros[i].periodo == "03"){  %>
+                        <% contp3++; %>
+                        <hr style="margin: 5px 0; border-style: double; border-color: gray;">  
+                        <div class="container">
+                          <div class="col-md-7 col-xs-7">
+                            <li><a href="/logro/ver?id=<%=malla.logros[i].id%>"><%= malla.logros[i].objetivo_general %></a> </li>
+                          </div>
+                          <div class="col-md-5 col-xs-5" style="margin: 5px 0;">
+                            <a href="/editar?id=<%= malla.logros[i].id%>"> <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button></a>
+                           <button class="btn btn-danger btn-xs" onclick="alertConfirm(' ¿deseas eliminar este logro?  ' , '/logro/delete/<%= malla.logros[i].id%>')"><i  class="fa fa-close"></i></button>
+                          </div> 
+                        </div> 
+                        <% } %>               
+                    <% } %>
+                  </div>
+
+
+                  <div class="col-md-3 col-xs-3">     
+                    <% for(var i=0; i<malla.logros.length; i++) {%>    
+                        <% if(malla.logros[i].periodo == "04"){  %>
+                        <% contp4++; %>
+                        <hr style="margin: 5px 0; border-style: double; border-color: gray;">  
+                        <div class="container">
+                        <div class="col-md-7 col-xs-7">
+                          <li><a href="/logro/ver?id=<%=malla.logros[i].id%>"><%= malla.logros[i].objetivo_general %></a> </li>
+                        </div>
+                          <div class="col-md-5 col-xs-5">
+                             <a href="/editar?id=<%= malla.logros[i].id%>"> <button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button></a>
+                           <button class="btn btn-danger btn-xs" onclick="alertConfirm(' ¿deseas eliminar este logro?  ' , '/logro/delete/<%= malla.logros[i].id%>')"><i  class="fa fa-close"></i></button>
+                          </div>
+                        </div> 
+                        <% } %>       
+                    <% } %>
+                  </div>
+              </div>
+           </div>
+           <hr>
+            <div class="row">
+              <div  class="col-md-3 col-xs-3"><a id="getInfo" href="/logro/new?id=<%= malla.id %>&periodo=01&nlogro=<%=contp1%>" class="btn btn-primary">+</a></div>
+              <div class="col-md-3 col-xs-3"><a id="getInfo" href="/logro/new?id=<%= malla.id %>&periodo=02&nlogro=<%=contp2%>" class="btn btn-primary">+</a></div>
+              <div class="col-md-3 col-xs-3"><a id="getInfo" href="/logro/new?id=<%= malla.id %>&periodo=03&nlogro=<%=contp3%>" class="btn btn-primary">+</a></div>
+              <div class="col-md-3 col-xs-3"><a id="getInfo" href="/logro/new?id=<%= malla.id %>&periodo=04&nlogro=<%=contp4%>" class="btn btn-primary">+</a></div>
+           </div>
+        </div>
+        </div>
+
+
+        <hr>
+      <% }) %>
+      </div>
+  </div>
+</div>

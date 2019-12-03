@@ -1,0 +1,59 @@
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+<section class="content-header">
+      <h1>
+        Agregar Docente
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Docentes</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Agregar Docente</a></li>
+      </ol>
+ </section>
+
+<div class="container">
+  <div class="w3-card-4" style="width:100%; margin-top: 60px;">
+    <header class="w3-container w3-brown w3-center">
+  <h1>Agregar Docente a Coordinador</h1>
+  <h2>Coordinador: <%= user.nombre%> <%= user.apellido%></h2>
+
+    </header>
+
+
+    <div class=" container w3-container text-center">
+  
+  <!-- Allows a Coordinador to be added many Docentes. -->
+
+    <form id="guardar" style="padding: 10px;" class="docentes" action="/administrador/agregardocentes/<%= user.id %>" method="post">
+      <% _.each(docentes, function (docente) { %>
+          
+          <label>
+            <input type="hidden" name="nombre<%= docente.id %>" value="<%=docente.nombre %>">
+            <input type="checkbox" name="docentes" value="<%= docente.id %>"> <%=docente.nombre %> <%=docente.apellido %>
+          </label>
+       
+        <% }) %>
+        <br>
+        <div class="container text-center">
+          <div id="alert"></div>
+        <button type="submit" id="answer" name="button" class="btn btn-lg btn-success" style="margin: 20px;">Agregar Docentes</button>
+        </div>
+    </form>
+
+</div>
+</div>
+</div>
+<script>
+  $(function(){
+  $("#answer").click(function(e){
+if($("input[name=docentes]:checked").val()){
+  $("#answer").attr("form","guardar");
+}
+
+  if(!$("input[name=docentes]:checked").val()){
+      e.preventDefault();
+$("#alert").html("<li style='color:red'> por favor seleccione una opción  </li>");
+}
+});
+  });
+</script>

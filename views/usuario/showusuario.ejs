@@ -1,0 +1,19 @@
+<div class="container">
+  <!-- Show all users -->
+  <h2>Informacion Usuario</h2>
+  <ul>
+    <li>
+      <%= usuario.nombre%>
+        <%= usuario.apellido%>
+    </li>
+    <li>
+      <%= usuario.email%>
+    </li>
+    <li>
+      <%= usuario.rol%>
+    </li>
+  </ul>
+  <form action="/usuario/edit/<%= usuario.id %>" method="post">
+    <button type="submit" class="btn btn-success">editar</button>
+  </form>
+</div>

@@ -1,0 +1,90 @@
+ <section class="content-header">
+      <h1>
+        Administrador Usuarios
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Coordinador</a></li>
+      </ol>
+    </section>
+
+      <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+<div class=" box container">
+  <h2>Docentes</h2>
+  <div class="mostrar_docentes ">
+  <h3 class="text-center">Docentes Control</h3>
+<table class="table  " style="text-align: center;">
+      <thead class="thead-inverse  w3-brown">
+        <tr>
+          <th style="text-align: center;">id</th>
+          <th style="text-align: center;">Nombres</th>
+          <th style="text-align: center;">Apellidos</th>
+          <th style="text-align: center;">Correo</th>
+          <th style="text-align: center;" colspan="3">Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(docentes, function (docente) { %>
+        <tr>
+            <td> <%= docente.id %> </td>
+            <td> <%= docente.nombre %> </td>
+            <td> <%= docente.apellido%> </td>
+            <td>  <%= docente.correo%> </td>
+            <td>
+             
+            <td>
+             <button class="btn btn-danger" onclick="alertConfirm(' ¿deseas eliminar este usuario?  ' , '/usuario/destroy/<%= docente.id %>')"><i style="margin-right: 5px;" class="fa fa-close"></i>Eliminar</button>
+               <a href="/docente/edit/<%= docente.id %>" class="btn btn-primary"><i style="margin-right: 5px;" class="fa fa-pencil-square-o"></i>Editar</a>
+                <a href="/malla/new/<%= docente.id %>"  class="btn btn-success"><i style="margin-right: 5px;" class="fa fa-graduation-cap"></i>Nueva Malla</a><!---->
+                 <a href="/mallasDocente?id=<%= docente.id %>"  class="btn btn-warning"><i style="margin-right: 5px;" class="fa fa-graduation-cap"></i>Ver Malla</a><!---->
+            </td>
+          
+        </tr>
+        <% }) %>
+       </tbody>
+    </table>
+    <table class="table  " style="text-align: center;">
+      <thead class="thead-inverse  w3-brown">
+         <tr>
+          <th style="text-align: center;">id</th>
+          <th style="text-align: center;">Nombres</th>
+          <th style="text-align: center;">Apellidos</th>
+          <th style="text-align: center;">Correo</th>
+          <th style="text-align: center;" colspan="3">Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+          <h3 class="text-center">Docentes Experimental</h3>
+         <% _.each(docentesExp, function (docenteExp) { %>
+        <tr>
+            <td> <%= docenteExp.id %> </td>
+            <td> <%= docenteExp.nombre %> </td>
+            <td> <%= docenteExp.apellido%> </td>
+            <td>  <%= docenteExp.correo%> </td>
+            <td>
+             
+            <td>
+               <button class="btn btn-danger" onclick="alertConfirm(' ¿deseas eliminar este usuario?  ' , '/usuario/destroy/<%= docenteExp.id %>')"><i style="margin-right: 5px;" class="fa fa-close"></i>Eliminar</button>
+               <a href="/docente/edit/<%= docenteExp.id %>" class="btn btn-primary"><i style="margin-right: 5px;" class="fa fa-pencil-square-o"></i>Editar</a>
+                <a href="/malla/new/<%= docenteExp.id %>"  class="btn btn-success"><i style="margin-right: 5px;" class="fa fa-graduation-cap"></i>Nueva Malla</a><!---->
+                 <a href="/mallasDocente?id=<%= docenteExp.id %>"  class="btn btn-warning"><i style="margin-right: 5px;" class="fa fa-graduation-cap"></i>Ver Malla</a><!---->
+            </td>
+          
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

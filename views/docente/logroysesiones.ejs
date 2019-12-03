@@ -1,0 +1,539 @@
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.js"></script>
+<script type="text/javascript">
+function validarCheck(sesion , idclase){
+var count = 1;
+  <% count = 1%>
+  <% e = 0 %>
+if( <% _.each(logros, function (logro) { %><% if(logro.sesiones[0]){ for(var i=0; i < logro.sesiones[0].cursofechacheck.length; i++) {  %> document.getElementById("check"+sesion+"-<%= count %> ").checked <% if(count != logro.sesiones[0].cursofechacheck.length  ){ %> && <% } %><% count++ ; e++ ; %><% } ; } %> 
+<% }) %> ){
+   <% if(req.session.user.rol.nombre == "Docente Experimental"){ %>
+$("#sesionModal").attr('value',sesion);
+<% logro = logros[0].id %>
+$("#logroModal").attr('value','<%= logro %>');
+ $("#preguntasModal").modal('show');
+ <% }else{ %> 
+ var count = 1;
+  <% _.each(logros, function (logro) { 
+    if(logro.sesiones[0]){ %>
+     <% for(var i=0; i < logro.sesiones[0].cursofechacheck.length; i++) {  %>
+      if(document.getElementById("check"+sesion+"-"+count+" ").checked){
+         $.ajax({
+          url :'guardarCheck?id='+idclase+"&idSesion="+sesion+"&count="+count, 
+          method: 'get',
+           beforeSend:function(){
+                   let timerInterval
+                    swal({
+                      title: 'Checkeando esta fecha!',
+                      html: 'cargando...',
+                      onOpen: () => {
+                        swal.showLoading()
+                      }
+                    })
+                },
+          success:function(res){
+            $('body').html(res);
+          }
+        })
+    }
+     count++;
+  <% } ; }%> 
+  <% }) %>
+<% count = 1%>
+ <% } %>
+}else{
+
+var count = 1;
+<% var onloadHability = false; %>
+  <% _.each(logros, function (logro) { 
+
+     if(logro.sesiones[0]){ %>
+     <% for(var i=0; i < logro.sesiones[0].cursofechacheck.length; i++) {  %>
+          console.log($("input[name=submitButton]").val());
+      if(document.getElementById("check"+sesion+"-"+count+" ").checked){
+         $.ajax({
+          url :'guardarCheck?id='+idclase+"&idSesion="+sesion+"&count="+count, 
+          method: 'get',
+          beforeSend:function(){
+                   let timerInterval
+                    swal({
+                      title: 'Checkeando esta fecha!',
+                      html: 'cargando...',
+                      onOpen: () => {
+                        swal.showLoading()
+                      }
+                    })
+                },
+          success:function(res){
+            $('body').html(res);
+          },
+           complete: function() {
+        location.reload();
+    },
+        })
+    }
+     count++;
+  <% } ; }  %> 
+  <% }) %>
+}
+
+<% count = 1%>
+}
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+
+editar('content');
+});
+
+
+function actualizarEvaluacion(logro){
+  $("#evaluacion-"+logro).removeAttr("disabled");
+  $("#evaluar").html('<form action="/Evaluacion"><button class="btn btn-primary" type="submit"><i class="fa fa-check"></i></button></a><label>Evaluación para los estudiantes</label><input type="hidden" name="logros" value="<%= logros[0].id %>" > <input type="text" id="evaluacion-<%= logros[0].id %>" name="evaluacion" class="form-control" >');
+  $(".content-evaluacion").remove();
+}
+
+function actualizarObservacion(logro,con){
+  $("#observacion-"+logro).removeAttr("disabled");
+  $("#observar").html('<form action="/Observacion"><button class="btn btn-primary" type="submit"><i class="fa fa-check"></i></button></a><label>Observación docente</label><input type="hidden" name="logros" value="<%= logros[0].id %>" ><input type="hidden" name="con" value="<%= logros[0].contador %>" ><p>Motivo de Modificación :</p><input type="text" placeholder="Escribe el motivo por el cual se desea editar la observacion" required name="motivo" class="form-control" ><br><p>Observación :</p><input type="text" placeholder="Escribe la observación que desea aplicar sobre este logro" id="observacion-<%= logros[0].id %>" name="observacion" class="form-control" >');
+  $(".content-observacion").remove();
+    
+}
+
+function addSession(){
+  valores =0;
+  $(".jumbotron #num_session").each(function(){
+    valores = $(this).val();
+  })
+    sesion = parseFloat(valores)+parseFloat(1);
+    logro = $("#logro").val();
+    contenido = "";
+     <%logroId = logros[0].id %>;
+    <%console.log( logroId) %>;
+    contenido += '<form action="/addSession" method="post" id="formAdd"><div class="jumbotron" style="padding: 20px 25px;"><div class="container col-md-5 col-sm-offset-11"></a></div><div class="container"><div class="container"><div class="col-md-1"></div><div class="col-md-2"><div class="container bg-primary " style="border-radius: 5px"><h4># sesión:</h4></div></div><div class="col-md-1"><input  type="text" cursoscursoscursosclass="form-control" name="num_sesion" value="'+sesion+'"  required="" id="num_session_add"></div><br><div><div class="row"><input type="hidden" name="logro" value="<%= logros[0].id %>"><input type="hidden" value="<%=logros[0].nivel %>" name="nivel"><input type="hidden" value="<%= logros[0].malla.id %>" name="mallaid"><div class="col-md-12"><label>Tema: </label><input  type="text" name="tema" id="tema"  class="form-control" required=""></div></div></div></div><div class="container"><div class="row"><div class="col-md-4"><label>Etapa del modelo: </label><select class="form-control" name="etapa_del_modelo" required=""   id="etapa"><option value="null"></option><option value="Activación de conocimientos previos">Activación de conocimientos previos</option><option value="Acceso a la informacion">Acceso a la informacion</option><option value="Conceptualización">Conceptualización</option><option value="Comprensión">Comprensión</option><option value="Transferencia">Transferencia</option></select></div><div class="col-md-4"><label>Tecnica de Enseñanza: </label><select class="form-control" name="tecnica_de_ensenanza" required="" sabled id="tecnica"><option value="null"></option><option value="Trabajo individual">Trabajo individual</option><option value="Trabajo en binas">Trabajo en binas</option><option value="Trabajo en pequeño grupo">Trabajo en pequeño grupo</option><option value="Trabajo en gran grupo">Trabajo en gran grupo</option></select></div>';
+
+    contenido += '<div class="col-md-4"><label>Recursos: </label><select class="form-control" name="recursos" required="" id="" ><option value="null"></option><option value="Ninguno">Ninguno</option><option value="Archivo">Archivo</option><option value="Video">Video</option><option value="Ebook">Ebook</option><option value="Video">Video</option><option value="Presentación Multimedia">Presentación multimedia</option><option value="Actividad Multimedia">Actividad Multimedia</option><option value="Galeria">Galeria</option><option value="Aplicaciones">Aplicaciones</option></select></div></div><div class="row"><div class="col-sm-12"><label>Descripcion de la actividad: </label><input  type="text" name="descripcion_de_la_actividad" id="descripcion" class="form-control" required=""></div><input type="hidden"  name="idSesion"><input type="hidden" name="contador"></div>';
+
+<% _.each(logros, function (logro) {   %>
+  <% var mesInicio = (logro.fecha_inicio.getMonth() + 1 <= 9) ? ("0" + parseInt(logro.fecha_inicio.getMonth() + 1)) : ( logro.fecha_inicio.getMonth() + 1) %>
+    <% var mesFinal = (logro.fecha_final.getMonth() + 1 <= 9) ? ("0" + parseInt(logro.fecha_final.getMonth() + 1)) : ( logro.fecha_final.getMonth() + 1) %>
+      <% var diaInicio = (logro.fecha_inicio.getDate() + 1 <= 9) ? ("0" + parseInt(logro.fecha_inicio.getDate() + 1)) : ( logro.fecha_inicio.getDate() + 1) %>
+       <% var diaFinal = (logro.fecha_final.getDate() + 1 <= 9) ? ("0" + parseInt(logro.fecha_final.getDate() + 1)) : ( logro.fecha_final.getDate() + 1) %>
+
+   <% for(var j=0; j < cursos[0].cursos.length; j++) {%>
+    contenido += '<br><div class="col-md-2 col-xs-2"></div><div class="container"><div class="col-md-3 col-xs-3"><ul class="col-md-4 col-xs-4"><li><label>Curso: </label></li></ul><input class="col-md-3 col-xs-3 cursostext" type="text" name="curso" value="<%= cursos[0].cursos[j].num_curso %>"></div><div class="div_curso_fecha col-sm-3"><ul class="ul_curso_fecha row"><li><label>Fecha: </label><input  type="date" name="fecha" min="<%= logro.fecha_inicio.getFullYear()  + "-"+  mesInicio  +"-" + diaInicio %>" max="<%= logro.fecha_final.getFullYear()  + "-"+  mesFinal +"-" +  diaFinal  %>" id="hora"   class="fechascursos" required=""></li></ul></div></div><br>';
+
+    <% } %>
+<% }) %>
+
+    contenido+='<div class="row"><div class="col-md-5"></div><div class="col-md-4"><input type="submit" value = "Agregar Sesion" class="btn btn-success"></div></div></form>';
+
+
+
+          $("#contenedorSesiones").html(contenido);
+}
+
+
+
+function editar(sesion, e){
+    $("#tema-"+sesion).attr("readonly",false);
+    $("#recursos-"+sesion).attr("readonly",false);
+      $("#recursos-"+sesion).attr("disabled",false);
+    $("#tecnica-"+sesion).attr("readonly",false);
+    $("#tecnica-"+sesion).attr("disabled",false);
+    $("#etapa-"+sesion).attr("readonly",false);
+    $("#etapa-"+sesion).attr("disabled",false);
+    $("#descripcion-"+sesion).attr("readonly",false);
+    $("#hora-"+sesion).attr("readonly",false);
+
+    $("#button-"+sesion).attr("class","btn btn-primary");
+      $("#button-"+sesion).remove();
+    /*$("#button-"+sesion).attr("form","/editar/logro");*/
+    $("#formulario").attr("action","/editar/sesion");
+  /*  $("#icon-"+sesion).attr("class","fa fa-check");*/
+    /*$("#button-"+sesion).removeAttr("onclick");*/
+
+    $("#"+sesion).html("<b>Motivo para Editar<b> : <input type='text' class='form-control ' placeholder='Escribe el motivo por el cual se edito esta sesión' name='motivo' required ><br><div class= 'text-center'><button type='submit' form='formulario' class='btn btn-success btn-lg'>Actualizar Sesión </button></div>");
+
+}
+
+
+</script>
+<script type="text/javascript">
+  
+    
+
+
+</script>
+
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+
+
+
+
+<% _.each(logros, function (logro) {   %>
+ <section class="content-header">
+      <h1>Logro </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> logro</a></li>
+      </ol>
+  </section>
+
+  <div class="box">
+      <div class="container" ng-app="AdministradorAPP" ng-controller="SesionCtrl">
+        <div class="box-header text-center">
+        <h4>LOGRO : <%= logro.malla.asignatura %>  <%if(logro.nivel[0]){ %> -nivel:<%=  logro.nivel[0].nombre %><% } %> </h4>
+      <hr>
+      </div>
+    <!-- Allows to create a new Logro -->
+    <form class="curso-form" id="formulario2" action="/createlogro" method="post">
+      <input type="hidden" name="mallaID" value="<%= logro.id%>" hidden>
+
+        <div class="row">
+      <div class="col-md-3">
+         <label>Fecha Inicio:</label>
+        <input readonly="" class="form-control" type="text" id="fecha_inicio" name="fecha_inicio" value='<%= (logro.fecha_inicio.getDate() + 1) + "/" + (logro.fecha_inicio.getMonth() + 1) + "/" + logro.fecha_inicio.getFullYear() %>' required="">
+      </div>
+      <div class="col-md-3">
+           <label>Fecha final:</label>
+        <input readonly="" class="form-control" type="text" id="fecha_final" name="fecha_final" value='<%= (logro.fecha_final.getDate() + 1) + "/" + (logro.fecha_final.getMonth() + 1) + "/" + logro.fecha_final.getFullYear() %>' required="">
+      </div>
+      <div class="col-md-3">
+       <label>Periodo</label>
+        <input readonly="" class="form-control" type="text" name="periodo" readonly=""  value="<%= logro.periodo %>">
+      </div>
+      <div class="col-md-3">
+        <label>N# Logro</label>
+        <input class="form-control" type="text" name="num_logro" value="<%= logro.num_logro %>" readonly="">
+      </div>
+    </div>
+
+      <div class="form-group">
+
+      </div>
+
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label for="comment">Objetivo general de aprendizaje:</label>
+        <input readonly="" type="text"  class="form-control" name="objetivo_general"  value="<%= logro.objetivo_general %>" required="" >
+      </div>
+
+       <div class="col-md-4">
+            <label>Estrategias de Enseñanza: </label>
+            <input readonly="" type="text" class="form-control" name="objetivo_general" value="<%= logro.estrategia_ensenianza %>" required="">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="referentes_teoricos">Referentes Teoricos:</label>
+        <textarea class="form-control" rows="5" name="referentes_teoricos" value="" readonly="" required="" style="resize: none;"><%= logro.referentes_teoricos %></textarea>
+      </div>
+
+</form>
+<!-- Otra sesion -->
+<% if(logros[0].sesiones){ %>
+
+<%
+var check = 1;
+for(var i=0; i < logro.sesiones.length; i++) { %>
+<form action="/" id="formulario" method="post"><!---<%= logro.sesiones[i].id %>-->
+
+      <hr>
+      <div class="jumbotron" style="padding: 20px 25px;">
+
+
+      <div class="container col-md-5 col-sm-offset-11">
+            <button type="button" id="button-<%= logro.sesiones[i].id%>" class="btn btn-success col-sm-1" onclick="return editar('<%= logro.sesiones[i].id %>');"><i id="icon-<%= logro.sesiones[i].id%>" class="fa fa-edit"></i></button>
+          <a href="/eliminar?id=<%= logro.sesiones[i].id%>&idLogro=<%= logro.id  %>"><button style="margin-left: 10px;" type="button" class="boton_quitar_sesion btn btn-danger col-sm-1"> X </button></a>
+        </div>
+
+        <div class="container">
+          <div class="container">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+                  <div class="container bg-primary " style="border-radius: 5px">
+                    <h4># sesión:</h4>
+                  </div>
+            </div>
+            <div class="col-md-1">
+                <input readonly="" type="text" class="form-control" name="num_sesion" readonly="" value="<%= logro.sesiones[i].num_sesion %>" required="" id="num_session">
+            </div>
+
+
+        <br>
+
+        <div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label>Tema: </label>
+              <input readonly="" type="text" name="tema" id="tema-<%= logro.sesiones[i].id %>" value="<%= logro.sesiones[i].tema %>" class="form-control" required="">
+            </div>
+
+          </div>
+        </div>
+
+       </div>
+
+        <div class="container">
+        <div class="row">
+
+          <div class="col-md-4">
+            <label>Etapa del modelo: </label>
+            <select class="form-control" name="etapa_del_modelo" required="" disabled readonly="" id="etapa-<%= logro.sesiones[i].id %>">
+              <option value="<%= logro.sesiones[i].etapa_del_modelo %>"><%= logro.sesiones[i].etapa_del_modelo %></option>
+              <option value="Activación de conocimientos previos">Activación de conocimientos previos</option>
+              <option value="Acceso a la informacion">Acceso a la informacion</option>
+              <option value="Conceptualización">Conceptualización</option>
+              <option value="Comprensión">Comprensión</option>
+              <option value="Transferencia">Transferencia</option>
+            </select>
+          <!--  <input  type="text" name="etapa_del_modelo"  value="<%= logro.sesiones[i].etapa_del_modelo %>" class="form-control" required="">-->
+          </div>
+
+
+          <div class="col-md-4">
+            <label>Tecnica de Enseñanza: </label>
+            <select class="form-control" name="tecnica_de_ensenanza" required="" readonly disabled id="tecnica-<%= logro.sesiones[i].id %>">
+              <option value="<%= logro.sesiones[i].tecnica_de_ensenanza %>"><%= logro.sesiones[i].tecnica_de_ensenanza %></option>
+              <option value="Trabajo individual">Trabajo individual</option>
+              <option value="Trabajo en binas">Trabajo en binas</option>
+              <option value="Trabajo en pequeño grupo">Trabajo en pequeño grupo</option>
+              <option value="Trabajo en gran grupo">Trabajo en gran grupo</option>
+            </select>
+            <!--<input readonly="" type="text" name="tecnica_de_ensenanza"  value="<%= logro.sesiones[i].tecnica_de_ensenanza %>" class="form-control" required="">-->
+          </div>
+
+
+          <div class="col-md-4">
+            <label>Recursos: </label>
+            <select class="form-control" name="recursos" required="" id="recursos-<%= logro.sesiones[i].id %>" disabled>
+              <option value="<%= logro.sesiones[i].recursos %>"><%= logro.sesiones[i].recursos %></option>
+              <option value="Ninguno">Ninguno</option>
+              <option value="Archivo">Archivo</option>
+              <option value="Video">Video</option>
+              <option value="Ebook">Ebook</option>
+              <option value="Video">Video</option>
+              <option value="Presentación Multimedia">Presentación multimedia</option>
+              <option value="Actividad Multimedia">Actividad Multimedia</option>
+              <option value="Galeria">Galeria</option>
+              <option value="Aplicaciones">Aplicaciones</option>
+            </select>
+            <!--<input readonly="" type="text" name="recursos" id="recursos-<%= logro.sesiones[i].id %>" value="<%= logro.sesiones[i].recursos %>" class="form-control" required="">-->
+          </div>
+
+
+        </div>
+
+
+          <div class="row">
+
+
+            <div class="col-sm-12">
+              <label>Descripcion de la actividad: </label>
+              <input readonly="" type="text" name="descripcion_de_la_actividad" id="descripcion-<%= logro.sesiones[i].id %>" value="<%= logro.sesiones[i].descripcion_de_la_actividad %>" class="form-control" required="">
+            </div>
+
+            <input type="hidden" value="<%= logro.sesiones[i].id %>" name="idSesion">
+            <input type="hidden" value="<%= logro.sesiones[i].contador %>" name="contador">
+
+
+          </div>
+
+        <br>
+
+
+
+
+              <% if(logro.sesiones[i].cursofechacheck){
+
+                for(var j=0; j < logro.sesiones[i].cursofechacheck.length; j++) {%>
+
+                <div class="col-md-2 col-xs-2">
+                </div>
+
+              <div class="container">
+                <div class="col-md-3 col-xs-3">
+
+                   <ul class="col-md-4 col-xs-4">
+                      <li>
+                        <label>Curso: </label>
+                      </li>
+                    </ul>
+                <input  class="<%= logro.sesiones[i].cursofechacheck[j].cursoid %>" type="checkbox" <%=logro.sesiones[i].cursofechacheck[j].check %> rel="<%=logro.sesiones[i].cursofechacheck[j].check %>"  onclick="return validarCheck('<%= logro.sesiones[i].id  %>'  , '<%= logro.sesiones[i].cursofechacheck[j].cursoid %>')" id="check<%= logro.sesiones[i].id %>-<%= check %> "  > <input class="col-md-3 col-xs-3 cursostext" type="text" name="curso" readonly="" value="<%= logro.sesiones[i].cursofechacheck[j].cursonum %>">
+              </div>
+
+              <div class="div_curso_fecha col-sm-3">
+                 <ul class="ul_curso_fecha row">
+                    <li>
+                      <label>Fecha: </label><input readonly="" type="date" name="fecha" id="hora-<%= logro.sesiones[i].id %>" value="<%= logro.sesiones[i].cursofechacheck[j].fecha %>" class="fechascursos" required="">
+
+                    </li>
+                 </ul>
+              </div>
+
+             </div>
+            <% check++ %>
+
+              <% } ; } %>
+          <% check = 1 %>
+           <br>
+          
+           <div id="<%= logro.sesiones[i].id %>" rel="observacion" required></div>
+
+
+           <br>
+       </form>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+<% } ; }  %>
+
+
+<!-- Sesiones -->
+
+
+      <hr>
+      <h2 class="agregar_sesion">Sesiones</h2>
+
+      <div class="row">
+
+
+          <input type="hidden" name="sesiondesc" ng-model="tem" class="form-control">
+          <input type="hidden" name="etapa_del_modelo_s" ng-model="eta" class="form-control">
+          <input type="hidden" name="tecnica_de_ensenanza_s" ng-model="tec" class="form-control">
+          <input type="hidden" name="recursos_s" ng-model="rec" class="form-control">
+          <input type="hidden" name="sesiondesc" ng-model="desc" class="form-control">
+          <input class="cursostext" type="hidden" name="cursosesion" value="" disabled>
+          <input type="hidden" name="fechasesioncurso" class="fechascursos">
+
+
+        <div class="row">
+          <div class="div_desplegables col-md-12">
+
+
+
+            <button type="button" class="btn btn-warning col-sm-offset-5 col-sm-1" id="btnAddSession" onclick="addSession()">
+              Agregar
+            </button>
+
+      </div>
+</div>
+
+      <div class="sesiones_agregadas row" id="contenedorSesiones">
+
+      <hr>
+
+    </div>
+  </div>
+
+      <div class="container-fluid footer-amarillo"></div>
+
+      <div class="panel_observaciones_logros row container">
+
+        <div id="evaluar"></div><div class="content-evaluacion"><button class="btn btn-success" id="buton-evaluacion-<%= logros[0].id %>" onclick="return actualizarEvaluacion('<%= logros[0].id %>')"><i class="fa fa-pencil"></i></button><label>Evaluación para los estudiantes</label>
+        <input type="text" id="evaluacion-<%= logros[0].id %>" name="evaluacion" class="form-control" value="<%=  logros[0].evaluacion %>"  disabled></div>
+        
+  <br>
+         <div id="observar"><div class="content-observacion"><button class="btn btn-success" id="buton-observacion-<%= logros[0].id %>" onclick="return actualizarObservacion('<%= logros[0].id %>')"><i class="fa  fa-pencil" ></i></button><label>observación docente</label>
+        <input type="text" id="observacion-<%= logros[0].id %>" name="observacion_docente" value="<%= logros[0].observacion_docente %>" disabled class="form-control"></div>
+
+
+      </div>
+
+      <br>
+      <br>
+
+
+      <div ng-if="count > 0" >
+      <br>
+      <br>
+      <br>
+      <br>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+
+<%  }) %>
+<div class="modal fade" id="preguntasModal" data-keyboard="false" data-backdrop="static">
+                 <div class="modal-dialog">
+                   <div class="modal-content">
+                     <div class="modal-header">
+                       <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                       <h4 class="modal-title">Sesión Finalizada !</h4>
+                     </div>
+                     <div class="modal-body">
+                      <form id="guardar" action="/savePregunta" method="post">
+                        <input type="hidden" id="sesionModal" name="idSesion" value="null">
+                        <input type="hidden" id="logroModal" name="logro" value="null">
+                      <% var cont=1  %>
+                         <% _.each(preguntas ,  function(pregunta){ %>
+                        <% if(cont < 4){ %>
+                        <%= cont %>)<%= pregunta.pregunta %><br>
+                        <input type="hidden" name="idLogro<%= cont %>" value="<%=  logros[0].id  %>">
+                        <input type="hidden" name="pregunta<%= cont %>" value="<%=  pregunta.id  %>">
+                        1 <input type="radio"  id="<%= cont %>"  name="<%= cont %>" value="1">
+                        2 <input type="radio" id="<%= cont %>" name="<%= cont%>" value="2">
+                        3 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="3">
+                        4 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="4">
+                        5 <input type="radio" id="<%= cont %>" name="<%= cont %>" value="5">
+                        <div id="check-answers-<%=cont %>" ></div>
+                        <br>
+                        <% cont++ %>
+                        <hr>  
+                        <% } %>
+                      
+                         <%   }) %>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                       <button  id="control-answers" type="submit" class="btn btn-primary"> Enviar</button>
+                       
+                     </div>
+                   </div><!-- /.modal-content -->
+                 </div><!-- /.modal-dialog -->
+               </div><!-- /.modal -->
+
+<script>
+  $("#control-answers").click(function(e){
+       
+         if($("input[name=1]:checked").val() && $("input[name=2]:checked").val() && $("input[name=3]:checked").val()){
+  $("#control-answers").attr("form","guardar");
+}
+  for (var i = 1; i < 4; i++) {
+  if(!$("input[name="+i+"]:checked").val()){
+      e.preventDefault();
+$("#check-answers-"+i).html("<li style='color:red'> por favor seleccione una opción  </li>");
+  }
+}
+
+
+
+});
+</script>
+

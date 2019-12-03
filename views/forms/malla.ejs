@@ -1,0 +1,80 @@
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+ <section class="content-header">
+      <h1>
+        Crear Mallas
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Docentes</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Crear mallas</a></li>
+      </ol>
+ </section>
+<div class="container" ng-app="AdministradorAPP" style="padding-top: 50px;">
+
+  <!-- The form with the new content of each subject which contains all the plan and the goals. -->
+
+  
+
+  <div class="w3-card-4" style="width:100%;">
+    <header class="w3-container w3-brown w3-center">
+     <h1>Nueva Malla</h1>
+     <h2>Docente: <%= usuario.nombre%> <%= usuario.apellido%></h2>
+    </header>
+
+    <div class="w3-container">
+  
+
+  <form id="guardar" action="/malla/create/<%= usuario.id%>" method="post" style="padding:10px;">
+        <label>Nombre de la Asignatura</label>
+        <div class="input-group">
+            <span class="input-group-addon"><i  class="fa fa-book"></i></span>
+            <input type="text" id="asignatura"  name="asignatura" placeholder="Matematicas, Español, Ingles..." class="form-control"/>
+       </div>
+    
+
+    
+      <label>Nivel</label>
+      <div class="niveles" ng-controller="ShowNivelesCtrl">
+        <div ng-repeat="nivel in niveles" class="radio-inline">
+          <label><input type="radio" name="nivel" value="{{nivel.id}}">{{nivel.nombre}}</label>
+        </div>
+      </div>
+   
+
+   
+      <label>Cursos</label>
+      <div class="niveles" ng-controller="ShowCursosCtrl">
+        <div ng-repeat="curso in cursos" class="checkbox-inline">
+          <label><input type="checkbox" name="cursos" value="{{curso.id}}">{{curso.num_curso}}</label>
+        </div>
+      </div>
+   
+
+ <div id="alert"></div>
+
+   <div class="container text-center">
+      <button id="answer" type="submit" class="btn btn-success btn-lg">
+        Agregar Malla
+      </button>
+   </div>
+
+  </form>
+   </div>
+  </div>
+
+</div>
+<script>
+  $(function(){
+  $("#answer").click(function(e){
+if($("input[name=nivel]:checked").val() && $("input[name=cursos]:checked").val()){
+  $("#answer").attr("form","guardar");
+}
+
+  if( !$("#asignatura").val()  || !$("input[name=nivel]:checked").val() || !$("input[name=cursos]:checked").val() ){
+      e.preventDefault();
+$("#alert").html("<li style='color:red'> por favor complete el formulario </li>");
+}
+});
+  });
+</script>

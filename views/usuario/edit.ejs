@@ -1,0 +1,80 @@
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+
+<section class="content-header">  
+  <h1>
+        Editar Usuario
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuario</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Editar usuario</a></li>
+    </ol>
+</section>
+<div class="container " style="padding-top: 50px;" ng-app="AdministradorAPP">
+<!-- User edit form -->
+  
+  <div class="w3-card-4" style="width:100%;">
+    <header class="w3-container w3-brown w3-center">
+      <h1>Actualizar Usuario</h1>
+    </header>
+
+    <div class="w3-container">
+      <form  id="guardar" action="/usuario/update/<%=user.id%>" method="post" style="padding: 10px;">
+                                Nombre :
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-address-card"></i></span>
+                                    <input type="text"  name="nombre" value="<%=user.nombre%>" class="form-control"/>
+                                </div>
+                                 Apellido:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-address-card"></i></span>
+                                    <input type="text"  name="apellido"  value="<%=user.apellido%>" class="form-control"/>
+                                </div>
+                                 Nit:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class=" fa fa-globe"></i></span>
+                                    <input type="text"  name="nit"  value="<%=user.nit%>" class="form-control"/>
+                                </div>
+                                 Correo:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-at"></i></span>
+                                    <input type="email"  name="correo"  value="<%=user.correo%>" class="form-control"/>
+                                </div>
+                                  estado actual del Rol:
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i  class="fa fa-user"></i></span>
+                                    <input type="text"  name="status"  value="<%=rol.nombre%>" disabled class="form-control"/>
+                                </div>
+  
+    
+                                <label>Rol</label>
+                                <div class="roles" ng-controller="showRolesCtrl">
+                                  <div ng-repeat="rol in roles">
+                                    <label><input type="radio" name="rol" value="{{rol.id}}">{{rol.nombre}}</label>
+                                  </div>
+                                </div>
+                          <div id="alert"></div>
+                              <div class="container text-center">
+                                <input type="submit" id="answer"  name="submitButton" class="btn btn-lg btn-success" value="Actualizar Usuario">
+                                <!--<a href="showadministrador?rolAdmin=2" class="btn btn-danger btn-lg">Volver</a>-->
+                                </div>
+      </form>
+    </div>
+  </div>
+
+
+</div>
+<script>
+  $(function(){
+  $("#answer").click(function(e){
+if($("input[name=rol]:checked").val()){
+  $("#answer").attr("form","guardar");
+}
+
+  if(!$("input[name=rol]:checked").val()){
+      e.preventDefault();
+$("#alert").html("<li style='color:red'> por favor seleccione una opción  </li>");
+}
+});
+  });
+</script>

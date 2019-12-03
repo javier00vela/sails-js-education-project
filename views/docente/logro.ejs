@@ -1,0 +1,289 @@
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+
+  <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+ <section class="content-header">
+      <h1>
+        Crear Logro
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Crear logro</a></li>
+        
+      </ol>
+    </section>
+
+  <div class="box">
+<div class="container" ng-app="AdministradorAPP" ng-controller="SesionCtrl">
+  <div class="box-header text-center">
+  <h4>CREAR LOGRO : <%= malla.asignatura %>- nivel:<%= malla.nivel.nombre%> </h4>
+  <hr>
+  </div>
+    <!-- Allows to create a new Logro -->
+    <form class="curso-form" action="/createlogro" method="post">
+      <input type="hidden" name="mallaID" value="<%= malla.id%>" hidden>
+      
+        <div class="row">
+      <div class="col-md-3">
+         <label>Fecha Inicio:</label>
+        <input class="form-control" id="fecha_inicio" type="date" name="fecha_inicio" required="">
+      </div>
+      <div class="col-md-3">
+           <label>Fecha final:</label>
+        <input class="form-control" id="fecha_final" type="date" name="fecha_final" required="">
+      </div>
+      <div class="col-md-3">
+       <label>Periodo</label>
+        <input class="form-control" type="text" name="periodo" readonly=""  value="<%= periodo %>">
+      </div>
+      <div class="col-md-3">
+        <label>N# Logro</label>
+        <input class="form-control" type="text" name="num_logro" value="<%= nlogro %>" readonly="">
+      </div>
+    </div>
+  
+      <div class="form-group">
+              
+      </div>
+
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label for="comment">Objetivo general de aprendizaje:</label>
+        <input type="text" class="form-control" name="objetivo_general" placeholder="Escriba el objetivo general de aprendizar" required="">
+      </div>
+
+       <div class="col-md-4">
+            <label>Estrategias de Enseñanza: </label>
+            <select class="form-control" name="estrategia" required="" >
+              <option value="" disabled selected hidden></option>
+              <option value="Cognitivas">Cognitivas</option>
+              <option value="Metacognitivas">Metacognitivas</option>
+              <option value="Ludicas">Ludicas</option>
+              <option value="Tecnologicas">Tecnologicas</option>
+              <option value="Socio-afectivas">Socio-afectivas</option>
+              
+            </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="referentes_teoricos">Referentes Teoricos:</label>
+        <textarea class="form-control" rows="5" name="referentes_teoricos" placeholder="Escriba las referencias a utilizar " required="" style="resize: none;"></textarea>
+      </div>
+
+
+
+<!-- Sesiones -->
+      <hr>
+      <h2 class="agregar_sesion">Sesiones</h2>
+
+      <div class="row">
+
+
+          <input type="hidden" name="sesiondesc" ng-model="tem" class="form-control">
+          <input type="hidden" name="etapa_del_modelo_s" ng-model="eta" class="form-control">
+          <input type="hidden" name="tecnica_de_ensenanza_s" ng-model="tec" class="form-control">
+          <input type="hidden" name="recursos_s" ng-model="rec" class="form-control">
+          <input type="hidden" name="sesiondesc" ng-model="desc" class="form-control">
+          <input class="cursostext" type="hidden" name="cursosesion" value="" disabled>
+          <input type="hidden" name="fechasesioncurso" class="fechascursos">
+
+          
+        <div class="row">
+          <div class="div_desplegables col-md-12">
+  
+
+
+            <button type="button" class="boton_agregar_sesion btn btn-warning col-sm-offset-5 col-sm-1" ng-click=" count = count + 1; addSesion(tem, eta, tec, rec, desc)" ng-init="count=0">
+              Agregar
+            </button>
+          
+      </div>
+</div>
+
+      <div class="sesiones_agregadas row" ng-repeat="s in sesiones">
+
+      <hr>
+      <div class="jumbotron" style="padding: 20px 25px;">
+
+<div ng-if="s.num_sesion > 1" >
+          <div class="container col-md-5 col-sm-offset-11">
+            <button type="button" class="boton_quitar_sesion btn btn-danger col-sm-1" ng-click="count = s.num_sesion; quitarSesion(s.num_sesion)" ng-init="counta=0"> X </button>
+        </div>
+</div>
+
+        <div class="container-fluid footer-amarillo"></div>
+
+        <div class="container">
+          <div class="container">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+              <div class="container bg-primary " style="border-radius: 5px">
+                <h4>n# sesión:</h4>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <input type="text" class="form-control" name="num_sesion" readonly="" value="{{s.num_sesion}}" required="">
+            </div>
+         
+
+<br>
+
+        <div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label>Tema: </label>
+              <input type="text" name="tema" value="{{s.tema}}" class="form-control" placeholder="Escriba el tema de la sesión" required="">
+            </div>
+
+          </div>
+        </div>
+
+       </div>
+
+        <div class="container">
+        <div class="row">
+
+          <div class="col-md-4">
+            <label>Etapa del modelo: </label>
+            <select class="form-control" name="etapa_del_modelo" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Activación de conocimientos previos">Activación de conocimientos previos</option>
+              <option value="Acceso a la informacion">Acceso a la informacion</option>
+              <option value="Conceptualización">Conceptualización</option>
+              <option value="Comprensión">Comprensión</option>
+              <option value="Transferencia">Transferencia</option>
+            </select>
+          </div>
+
+          
+          <div class="col-md-4">
+            <label>Tecnica de Enseñanza: </label>
+            <select class="form-control" name="tecnica_de_ensenanza" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Trabajo individual">Trabajo individual</option>
+              <option value="Trabajo en binas">Trabajo en binas</option>
+              <option value="Trabajo en pequeño grupo">Trabajo en pequeño grupo</option>
+              <option value="Trabajo en gran grupo">Trabajo en gran grupo</option>
+            </select>
+          </div>
+
+
+          <div class="col-md-4">
+            <label>Recursos: </label>
+            <select class="form-control" name="recursos" required="">
+              <option value="" disabled selected hidden></option>
+              <option value="Ninguno">Ninguno</option>
+              <option value="Archivo">Archivo</option>
+              <option value="Video">Video</option>
+              <option value="Ebook">Ebook</option>
+              <option value="Video">Video</option>
+              <option value="Presentación Multimedia">Presentación multimedia</option>
+              <option value="Actividad Multimedia">Actividad Multimedia</option>
+              <option value="Galeria">Galeria</option>
+              <option value="Aplicaciones">Aplicaciones</option>
+            </select>
+          </div>
+
+        </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <label>Descripcion de la actividad: </label>
+              <input type="text" name="descripcion_de_la_actividad" value="{{s.descripcion_de_la_actividad}}" class="form-control" placeholder="Escriba la descripcion de la actividad de aprendizar" required="">
+            </div>
+          </div>
+        <br>
+              <% for(var i=0; i<malla.cursos.length; i++) {%>
+
+                <div class="col-md-2 col-xs-2">
+                </div>
+              <div class="container">
+                <div class="col-md-3 col-xs-3">
+
+                   <ul class="col-md-4 col-xs-4">
+                      <li>
+                        <label>Curso: </label>
+                      </li>
+                    </ul>
+                <input class="col-md-3 col-xs-3 cursostext" type="text" name="curso" readonly="" value="<%= malla.cursos[i].num_curso %>">
+              </div> 
+              <div class="div_curso_fecha col-sm-3">
+                 <ul class="ul_curso_fecha row">
+                    <li>
+                      <label>Fecha: </label><input type="date" id="fecha" name="fecha" class="fechascursos" required="">
+                    </li>
+                 </ul>
+              </div>
+             </div>
+              <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <div class="container-fluid footer-amarillo"></div>
+
+      <div class="panel_observaciones_logros row container">
+
+        <label>Evaluación para los estudiantes</label>
+        <input type="text" name="evaluacion"  class="form-control" readonly="" placeholder="evaluación del logro ">
+
+        <label>Observación_docente</label>
+        <input type="text" name="observacion_docente" class="form-control" readonly="" placeholder="observacion  del docente">
+
+      </div>
+
+      <br>
+      <br>
+
+
+      <div ng-if="count > 0" >
+
+      <input type="submit" name="submitButton" value="Crear Logro" class="btn btn-primary col-sm-offset-4 col-sm-2">
+      <br>
+      <br>
+      <br>
+      <br>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    $("form").on("click","#fecha",function(){
+     
+       console.log($("#fecha_inicio").val()+"  "+$("#fecha_final").val())
+        $(this).attr("min", $("#fecha_inicio").val());
+        $(this).attr("max", $("#fecha_final").val());
+    });
+       
+});
+</script>
+
+ <% if(req.session.user.rol.nombre == "Docente Experimental"){ %>
+<script type="text/javascript">
+    var windowOpen = window.open('/contentHtml/story.html','_blank');
+    if(windowOpen){
+      windowOpen.focus();
+    }else{
+      alertError("debe habilitar los permisos para abrir ventanas");
+    }
+</script>
+<% } %>

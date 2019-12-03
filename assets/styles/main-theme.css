@@ -1,0 +1,119 @@
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+.sesiones-panel, .last-panel{
+  margin-bottom: 25px;
+}
+.btn-addses{
+  margin-top: 25px;
+}
+.login-form{
+  padding-bottom: 30px;
+}
+.form-top{
+  margin-top: 150px;
+}
+/* HEADER STYLE */
+.brand-MetaPlan{
+  padding: 0px;
+}
+.logo-header-container{
+  width: 100px;
+  height: 50px;
+}
+.logo-header{
+  width: 100%;
+  height: 100%;
+}
+.header-amarillo{
+  height: 75px;
+  background-color: #ff8000;
+}
+.header-cafe{
+  height: 75px;
+  background-color: #9c6141;
+}
+/* FIN HEADER STYLE */
+/* MAINVIEW STYLE */
+.contenedor-principal{
+  text-align: center;
+}
+.contenerdor-LogoPrincipal{
+  margin-bottom: 20px;
+}
+.contenerdor-textoPrincipal{
+  margin-bottom: 50px;
+}
+/* FIN HEADER STYLE */
+/* FOOTER STYLE */
+
+.footer-cafe{
+  height: 5px;
+  background-color: #9c6141;
+}
+.footer-amarillo{
+  height: 5px;
+  background-color: #ff8000;
+}
+.footer-info{
+  text-align: center;
+}
+/* FIN FOOTER STYLE */
+/* LOGIN FORM STYLE*/
+.contenedor-login-form{
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+.text-label{
+  padding: 0;
+  margin: 0;
+}
+.btn-container{
+  padding: 10px 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+li{
+  display: inline;
+}
+.div_curso_fecha{
+  display: inline;
+}
+.ul_curso_fecha{
+  display: inline;
+}
+.div_tema{
+  margin: 25px 0;
+}
+.div_desplegables{
+  margin: 25px 0;
+}
+.div_curso_fecha{
+  margin: 25px 0;
+}
+.boton_agregar_sesion{
+  margin-bottom: 25px;
+  background-color: #9c6141;
+  text-align: center;
+}
+.agregar_sesion{
+  background: white;
+  background-color: #9c6141;
+  text-align: center;
+  color: white;
+}
+.panel_observaciones_logros{
+  margin: 25px 0;
+}
+/* END LOGIN FORM STYLE*/
+/*
+----NEW STYLES-----*/
+body{
+  background-image: url("/images/fondoLogin.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover; margin: 0px;
+}

@@ -1,0 +1,59 @@
+<section class="content-header">  
+  <h1>
+        Seguimiento de docentes
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de docentes</a></li>
+    </ol>
+</section>
+<style>
+  th{
+    text-align: center;
+    background: #483212;
+    color: white;
+  }
+  td{
+    text-align: center;
+  }
+</style>
+
+<script src="/bower components/jquery/dist/jquery.min.js"></script>
+
+<div class=" box container " >
+  <h2 class="text-center">Control historico de modificaciones de docentes</h2>
+  <hr>
+  <div class="mostrar_docentes" style="border-radius: 5px;" >
+    <table class="table table-condensed" >
+      <thead class="thead-inverse" >
+        <tr style="border-radius: 5px;">
+          <th>Logro</th>
+          <th>Sesion</th>
+          <th>Modificicaciones</th>
+          <th>Motivo</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+ 
+  <% _.each(datos, function(logro){ %> 
+      <% _.each(logro.sesiones, function(sesiones){ %>
+          <% if(logro.malla){ %>
+          <% if(logro.malla.docente == id){ %>  
+              <tr>
+                <td><%=logro.objetivo_general%></td>
+                 <td><%=sesiones.tema%></td>
+                  <td><%=sesiones.contador%></td>
+                <td><a href="vermotivos?id=<%= sesiones.id %>" class="btn btn-success "> <i style="margin-right: 8px;" class=" fa fa-commenting"></i>ver Motivos </a></td>
+             </tr>
+             <% } %>
+            <% } %>
+              <% }) %>
+              
+    <% }) %>
+ 
+              
+      </tbody>
+    </table>
+</div>
+</div>

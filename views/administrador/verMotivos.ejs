@@ -1,0 +1,47 @@
+<section class="content-header">	
+	<h1>
+        Ver motivos del logro
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+       <li><a href="#"><i class="fa fa-dashboard"></i> Seguimiento de docentes</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Motivo Logro</a></li>
+    </ol>
+</section>
+<style>
+  th{
+    text-align: center;
+    background: #5D3512;
+    color: white;
+    border-radius: 5px;
+  }
+  td{
+    text-align: center;
+  }
+</style>
+<div class=" box container " >
+	<h2 class="w3-brown w3-padding-large w3-center  " style="border-radius: 5px;">Historial de Modificaciones </h2>
+	<% if(motivosDoc[0]){ %>
+	<h4><b>Logro : </b> <%= motivosDoc[0].logro.objetivo_general %></h4>
+	<h4><b>Sesión : </b> <%= motivosDoc[0].tema %></h4>
+	 <table class="table table-condensed">
+      <thead class="thead-inverse">
+			<tr>
+				<th>Motivo</th>
+				<th>Fecha de Modificación</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(i=0; i<motivosDoc[0].motivo.length; i++){%>
+			<tr>
+				<td><%= motivosDoc[0].motivo[i].mensaje %></td>
+				<td><%= motivosDoc[0].motivo[i].fecha %></td>
+				<hr>
+			</tr>
+
+			<% } %>
+		</tbody>
+	</table>
+	<% } %>
+</div>
+

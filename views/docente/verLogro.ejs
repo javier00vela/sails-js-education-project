@@ -1,0 +1,277 @@
+ <section class="content-header">
+      <h1>
+        Consultar Logro
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Consultar Logro</a></li>
+      </ol>
+    </section>
+
+
+
+<% _.each(logros, function (logro) { %>
+  <div class="box">
+<div class="container" ng-app="AdministradorAPP" ng-controller="SesionCtrl">
+  <div class="box-header text-center">
+  <h4>LOGRO : <%= logro.malla.asignatura %></h4>
+  <hr>
+  </div>
+    <!-- Allows to create a new Logro -->
+    <form class="curso-form" action="/createlogro" method="post">
+      <input type="hidden" name="mallaID" value="<%= logro.id%>" hidden>
+      
+        <div class="row">
+      <div class="col-md-3">
+         <label>Fecha Inicio:</label>
+        <input readonly="" class="form-control" type="text" name="fecha_inicio" value='<%= (logro.fecha_inicio.getDate() + 1) + "/" + (logro.fecha_inicio.getMonth() + 1) + "/" + logro.fecha_inicio.getFullYear() %>' required="">
+      </div>
+      <div class="col-md-3">
+           <label>Fecha final:</label>
+        <input readonly="" class="form-control" type="text" name="fecha_final" value='<%= (logro.fecha_final.getDate() + 1) + "/" + (logro.fecha_final.getMonth() + 1) + "/" + logro.fecha_final.getFullYear() %>' required="">
+      </div>
+      <div class="col-md-3">
+       <label>Periodo</label>
+        <input readonly="" class="form-control" type="text" name="periodo" readonly=""  value="<%= logro.periodo %>">
+      </div>
+      <div class="col-md-3">
+        <label>N# Logro</label>
+        <input class="form-control" type="text" name="num_logro" value="<%= logro.num_logro %>" readonly="">
+      </div>
+    </div>
+  
+      <div class="form-group">
+              
+      </div>
+
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label for="comment">Objetivo general de aprendizaje:</label>
+        <input readonly="" type="text" class="form-control" name="objetivo_general" value="<%= logro.objetivo_general %>" required="">
+      </div>
+
+       <div class="col-md-4">
+            <label>Estrategias de Enseñanza: </label>
+            <input readonly="" type="text" class="form-control" name="objetivo_general" value="<%= logro.estrategia_ensenianza %>" required="">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="referentes_teoricos">Referentes Teoricos:</label>
+        <textarea class="form-control" rows="5" name="referentes_teoricos" value="" readonly="" required="" style="resize: none;"><%= logro.referentes_teoricos %></textarea>
+      </div>
+
+
+<!-- Otra sesion -->
+
+<% 
+var check = 1;
+
+for(var i=0; i < logro.sesiones.length ; i++) { 
+
+%>
+
+      <hr>
+      <div class="jumbotron" style="padding: 20px 25px;">
+
+
+          <div class="container col-md-5 col-sm-offset-11">
+        </div>
+
+
+        <div class="container-fluid footer-amarillo"></div>
+
+        <div class="container">
+          <div class="container">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+              <div class="container bg-primary " style="border-radius: 5px">
+                <h4>n# sesión:</h4>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <input readonly="" type="text" class="form-control" name="num_sesion" readonly="" value="<%= logro.sesiones[i].num_sesion %>" required="">
+            </div>
+         
+
+<br>
+
+        <div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label>Tema: </label>
+              <input readonly="" type="text" name="tema" value="<%= logro.sesiones[i].tema %>" class="form-control" required="">
+            </div>
+
+          </div>
+        </div>
+
+       </div>
+
+        <div class="container">
+        <div class="row">
+
+          <div class="col-md-4">
+            <label>Etapa del modelo: </label>
+            <input readonly="" type="text" name="etapa_del_modelo" value="<%= logro.sesiones[i].etapa_del_modelo %>" class="form-control" required="">
+          </div>
+
+          
+          <div class="col-md-4">
+            <label>Tecnica de Enseñanza: </label>
+            <input readonly="" type="text" name="tecnica_de_ensenanza" value="<%= logro.sesiones[i].tecnica_de_ensenanza %>" class="form-control" required="">
+          </div>
+
+
+          <div class="col-md-4">
+            <label>Recursos: </label>
+      <input readonly="" type="text" name="recursos" value="<%= logro.sesiones[i].recursos %>" class="form-control" required="">
+          </div>
+
+    
+        </div>
+
+
+
+          <div class="row">
+
+
+            <div class="col-sm-12">
+              <label>Descripcion de la actividad: </label>
+              <input readonly="" type="text" name="descripcion_de_la_actividad" value="<%= logro.sesiones[i].descripcion_de_la_actividad %>" class="form-control" required="">
+            </div>
+
+
+          </div>
+
+        <br>
+
+              <% for(var j=0; j < logro.sesiones[i].cursofechacheck.length; j++) { %>
+
+                <div class="col-md-2 col-xs-2">
+                </div>
+
+              <div class="container">
+                <div class="col-md-3 col-xs-3">
+
+                   <ul class="col-md-4 col-xs-4">
+                      <li>
+                        <label>Curso: </label>
+                      </li>
+                    </ul>
+                <input type="checkbox" disabled <%=logro.sesiones[i].cursofechacheck[j].check %>   id="check<%= check %>"> <input class="col-md-3 col-xs-3 cursostext" type="text" name="curso" disabled value="<%= logro.sesiones[i].cursofechacheck[j].cursonum %>">
+              </div> 
+
+              <div class="div_curso_fecha col-sm-3">
+                 <ul class="ul_curso_fecha row">
+                    <li>
+
+                      <label>Fecha: </label><input type="date" disabled name="fecha" value='<%= logro.sesiones[i].cursofechacheck[j].fecha %>' class="fechascursos" required="">
+
+                    </li>
+                 </ul>
+              </div>
+
+             </div>
+            <% check++ %>
+
+              <% } %>
+
+           <br>
+          
+       
+
+</div>
+
+
+        </div>
+      </div>
+
+
+<% } %>
+
+
+<!-- Sesiones -->
+      <hr>
+      <h2 class="agregar_sesion">Sesiones</h2>
+
+      <div class="row">
+
+
+          <input type="hidden" name="sesiondesc" ng-model="tem" class="form-control">
+          <input type="hidden" name="etapa_del_modelo_s" ng-model="eta" class="form-control">
+          <input type="hidden" name="tecnica_de_ensenanza_s" ng-model="tec" class="form-control">
+          <input type="hidden" name="recursos_s" ng-model="rec" class="form-control">
+          <input type="hidden" name="sesiondesc" ng-model="desc" class="form-control">
+          <input class="cursostext" type="hidden" name="cursosesion" value="" disabled>
+          <input type="hidden" name="fechasesioncurso" class="fechascursos">
+
+          
+        <div class="row">
+          <div class="div_desplegables col-md-12">
+          
+      </div>
+</div>
+
+      <div class="sesiones_agregadas row" ng-repeat="s in sesiones">
+
+      <hr>
+
+    </div>
+  </div>
+
+      <div class="container-fluid footer-amarillo"></div>
+
+      <div class="panel_observaciones_logros row container">
+
+        <label>Evaluacion para los estudiantes</label>
+        <input type="text" name="evaluacion" readonly="" class="form-control">
+
+        <label>observacion_docente</label>
+        <input type="text" name="observacion_docente" readonly="" class="form-control">
+
+      </div>
+
+      <br>
+      <br>
+
+
+      <div ng-if="count > 0" >
+
+      <input type="submit" name="submitButton" value="Crear Logro" class="btn btn-primary col-sm-offset-4 col-sm-2">
+      <br>
+      <br>
+      <br>
+      <br>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+
+<% }) %>
+<div class="container">
+  <% if( comentarios.length > 0){ %>
+<div class="panel panel-primary">
+
+<h3>Comentarios </h3>
+</div>
+<% } %>
+   <% _.each(comentarios , function(comments){ %>
+<div class="container">
+    <li> <label for="comment">Comentario Coordinador/a: <%= comments.publicante.nombre  %> <%= comments.publicante.apellido  %></label></li>
+		   <div class="form-group">
+               <textarea name="texto"  cols="150" rows="1" disabled>  <%= comments.texto  %></textarea>
+          </div>
+<hr>
+  </div>
+ <% }); %>
+</div>
+</div>
+</div>
+</div>

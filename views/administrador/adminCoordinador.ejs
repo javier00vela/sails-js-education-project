@@ -1,0 +1,56 @@
+
+ <section class="content-header">
+      <h1>
+        Administrador Usuarios
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Usuarios</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Administrador Coordinador</a></li>
+      </ol>
+    </section>
+      <% if(flash && flash.err){ %>
+    <%  Object.keys(flash.err).forEach(function(error){ %>
+    <script type="text/javascript">alertError("<%=flash.err[error]%>"); </script>
+    <% }) %>
+    <% } %>
+
+<% if(flash && flash.success){ %>
+    <%  Object.keys(flash.success).forEach(function(good){ %>
+    <script type="text/javascript">alertBien("<%=flash.success[good]%>"); </script>
+
+    <% }) %>
+    <% } %>
+<div class=" box container">
+    <h2>Coordinadores</h2>
+  <div class="mostrar_coordinadores  ">
+    <table class="table table-condensed table-responsive" style="text-align: center;">
+      <thead class="thead-inverse w3-brown" >
+        <tr>
+          <th style="text-align: center;">Id</th>
+          <th style="text-align: center;">Nombres</th>
+          <th style="text-align: center;">Apellidos</th>
+          <th style="text-align: center;">Correo</th>
+          <th style="text-align: center;" colspan="3">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(coordinadores, function (coordinador) { %>
+        <tr>
+            <td> <%= coordinador.id %> </td>
+            <td> <%= coordinador.nombre %> </td>
+            <td> <%= coordinador.apellido%> </td>
+            <td>  <%= coordinador.correo%> </td>
+            <td>
+             
+               <button class="btn btn-danger" onclick="alertConfirm(' ¿deseas eliminar este usuario? ' , '/usuario/destroy/<%= coordinador.id %>')"><i style="margin-right: 5px;" class="fa fa-close"></i>Eliminar</button>
+              <a href="/coordinador/edit/<%= coordinador.id %>" class="btn btn-primary"><i style="margin-right: 5px;" class="fa fa-pencil-square-o"></i>Editar</a>
+              <a href="/administrador/vincular/<%= coordinador.id %>" class="btn btn-success"><i class="fa fa-user" style="margin-right: 5px;"></i>Agregar Docente</a>
+              <a href="/docentesCoordinador?id=<%= coordinador.id %>" class="btn btn-warning"><i class="fa fa-user" style="margin-right: 5px;"></i>Ver docentes</a>
+            </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
